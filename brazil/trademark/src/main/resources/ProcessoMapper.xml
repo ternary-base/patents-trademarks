@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+        'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+
+<mapper namespace="br.gov.inpi.mapper.ProcessoMapper">
+
+    <resultMap type='Processo' id='ProcessoResult'>
+        <id property='id' column='ID'/>
+    </resultMap>
+
+    <resultMap type='ProcessoResumo' id='ProcessoResumoResult'>
+        <id property='razaoSocial' column='RAZAO_SOCIAL'/>
+        <id property='nome' column='NOME'/>
+        <id property='procurador' column='PROCURADOR'/>
+        <id property='dataDeposito' column='DT_DEPOSITO'/>
+        <id property='dataConcessao' column='DT_CONCESSAO'/>
+        <id property='dataVigencia' column='DT_VIGENCIA'/>
+        <id property='codigoClasseNacional' column='CODIGO'/>
+        <id property='especificacaoClasseNacional' column='ESPECIFICACAO'/>
+        <id property='natureza' column='NATUREZA'/>
+        <id property='codigoVienna' column='CODIGO_VIENNA'/>
+
+    </resultMap>
+
+    <resultMap id="ProcessoPublicacaoResult" type="ProcessoPublicacao">
+        <id property='numeroRevista' column='NUM_REVISTA'/>
+        <id property='dataPublicacao' column='DT_PUBLICACAO'/>
+        <id property='codigo' column='CODIGO'/>
+        <id property='despacho' column='NOME'/>
+    </resultMap>
+
+
+    <resultMap id="ProcessoProtocoloResult" type="ProcessoProtocolo">
+        <id property='numero' column='NUMERO'/>
+        <id property='dataProtocolo' column='DT_PROTOCOLO'/>
+        <id property='codigoServico' column='CODIGO_SERVICO'/>
+        <id property='procurador' column='PROCURADOR'/>
+    </resultMap>
+
+    <insert id='inserir' parameterType='Processo' useGeneratedKeys='true' keyProperty='ID'>
+        INSERT INTO PROCESSO(REVISTA_ID, NUMERO, DT_DEPOSITO, DT_CONCESSAO, DT_VIGENCIA, PROCURADOR, APOSTILA)
+        VALUES(#{revista.id}, #{numero}, #{dataDepositoFormatada} , #{dataConcessaoFormatada} ,#{dataVigenciaFormatada},
+        #{procurador}, #{apostila} )
+    </insert>
+
+    <select id='countProcesso' resultType="Long">
+        SELECT count(ID) from PROCESSO
+    </select>
+
+    <select id='getProcesso' parameterType='Processo' resultType='Processo'>
+        SELECT ID, NUMERO, REVISTA_ID, DT_DEPOSITO, DT_CONCESSAO, DT_VIGENCIA, PROCURADOR from PROCESSO
+        WHERE NUMERO = #{numero}
+        AND REVISTA_ID = #{revista.id}
+    </select>
+
+    <select id="getResumoProcesso" parameterType="Processo" resultMap="ProcessoResumoResult">
+        SELECT T.RAZAO_SOCIAL,
+        M.NOME,
+        P.PROCURADOR,
+        P.DT_DEPOSITO,
+        P.DT_CONCESSAO,
+        P.DT_VIGENCIA,
+        CN.CODIGO,
+        CN.ESPECIFICACAO,
+        M.NATUREZA,
+        GROUP_CONCAT(CVF.CODIGO, ' ; ') AS CODIGO_VIENNA
+        FROM PROCESSO P
+        LEFT JOIN MARCA  M ON M.PROCESSO_ID = P.ID
+        LEFT JOIN PROCESSO_CLASSE_NICE PCN ON PCN.PROCESSO_ID = P.ID
+        LEFT JOIN CLASSE_NICE CN ON CN.ID = PCN.CLASSE_NICE_ID
+        LEFT JOIN TITULAR T ON T.PROCESSO_ID = P.ID
+        LEFT JOIN CLASSES_VIENNA CV ON CV.PROCESSO_ID = P.ID
+        LEFT JOIN CLASSE_VIENNA CVF ON CVF.CLASSES_VIENNA_ID = CV.ID
+        LEFT JOIN CLASSE_NACIONAL CNA ON CNA.PROCESSO_ID = P.ID
+        LEFT JOIN SUBCLASSE SBC ON SBC.CLASSE_NACIONAL_ID = CNA.ID
+        WHERE P.NUMERO = #{numero}
+        AND M.ID IS NOT NULL
+        GROUP BY T.RAZAO_SOCIAL,
+        M.NOME,
+        P.PROCURADOR,
+        P.DT_DEPOSITO,
+        P.DT_CONCESSAO,
+        P.DT_VIGENCIA,
+        CN.CODIGO,
+        CN.ESPECIFICACAO,
+        CNA.ESPECIFICACAO,
+        M.NATUREZA
+    </select>
+
+    <select id="getPublicacao" parameterType="Processo" resultMap="ProcessoPublicacaoResult">
+        SELECT  REV.NUM_REVISTA,
+        REV.DT_PUBLICACAO,
+        D.CODIGO,
+        D.NOME
+        FROM PROCESSO P
+        INNER JOIN REVISTA REV ON REV.ID = P.REVISTA_ID
+        LEFT JOIN DESPACHO_PROCESSO DP ON DP.PROCESSO_ID = P.ID
+        LEFT JOIN DESPACHO D ON D.ID = DP.DESPACHO_ID
+        WHERE P.NUMERO = #{numero}
+        ORDER BY DT_PUBLICACAO DESC
+    </select>
+
+    <select id="getProtocolo" parameterType="Processo" resultMap="ProcessoProtocoloResult">
+        SELECT  PRO.NUMERO,
+        PRO.DT_PROTOCOLO,
+        PRO.CODIGO_SERVICO,
+        PRO.PROCURADOR
+        FROM PROCESSO P
+        LEFT JOIN SOBRESTADOR S ON S.PROCESSO_ID = P.ID
+        LEFT JOIN DESPACHO_PROCESSO DP ON DP.PROCESSO_ID = P.ID
+        LEFT JOIN PROTOCOLO PRO ON PRO.DESPACHO_ID = DP.DESPACHO_ID
+        WHERE P.NUMERO = #{numero}
+        ORDER BY PRO.DT_PROTOCOLO DESC
+    </select>
+
+    <update id="atualizar" parameterType="Processo">
+        UPDATE PROCESSO
+        SET NUMERO = #{numero},
+        DT_DEPOSITO = #{dataDepositoFormatada},
+        DT_CONCESSAO = #{dataConcessaoFormatada},
+        DT_VIGENCIA = #{dataVigenciaFormatada},
+        PROCURADOR = #{procurador},
+        REVISTA_ID = #{revista.id},
+        APOSTILA = #{apostila}
+        WHERE ID = #{id}
+    </update>
+
+</mapper>

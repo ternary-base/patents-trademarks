@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+        'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+
+<mapper namespace="br.gov.inpi.mapper.UsuarioMapper">
+
+        <resultMap type="Usuario" id="UsuarioResult">
+                <id property="id" column="ID"/>
+                <id property="nome" column="NOME"/>
+                <id property="email" column="EMAIL"/>
+        </resultMap>
+
+        <insert id="inserir" parameterType="Usuario" useGeneratedKeys="true" keyProperty="ID">
+                INSERT INTO SITE_USUARIO(NOME, EMAIL)
+                VALUES(#{nome}, #{email})
+        </insert>
+
+        <select id="getUsuario" parameterType="Usuario" resultType="Usuario">
+                SELECT ID, NOME, EMAIL FROM SITE_USUARIO
+                WHERE EMAIL = #{email}
+        </select>
+
+
+</mapper>

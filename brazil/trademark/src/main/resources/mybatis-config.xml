@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE configuration
+        PUBLIC '-//mybatis.org//DTD Config 3.0//EN'
+        'http://mybatis.org/dtd/mybatis-3-config.dtd'>
+
+<configuration>
+
+    <properties resource='jdbc.properties'/>
+
+    <typeAliases>
+        <typeAlias type='br.gov.inpi.domain.Revista' alias='Revista'></typeAlias>
+        <typeAlias type='br.gov.inpi.domain.Processo' alias='Processo'></typeAlias>
+        <typeAlias type='br.gov.inpi.domain.ProcessoResumo' alias='ProcessoResumo'></typeAlias>
+        <typeAlias type='br.gov.inpi.domain.Titular' alias='Titular'></typeAlias>
+        <typeAlias type='br.gov.inpi.domain.Despacho' alias='Despacho'></typeAlias>
+        <typeAlias type="br.gov.inpi.domain.DespachoProcesso" alias="DespachoProcesso"></typeAlias>
+        <typeAlias type="br.gov.inpi.domain.ProcessoClasseNice" alias="ProcessoClasseNice"></typeAlias>
+        <typeAlias type="br.gov.inpi.domain.ClasseNice" alias="ClasseNice"></typeAlias>
+        <typeAlias type="br.gov.inpi.domain.Sobrestador" alias="sobrestador"></typeAlias>
+        <typeAlias type="br.gov.inpi.domain.Marca" alias="Marca"></typeAlias>
+        <typeAlias type="br.gov.inpi.domain.Prioridade" alias="Prioridade"></typeAlias>
+        <typeAlias type="br.gov.inpi.domain.ClasseNacional" alias="ClasseNacional"></typeAlias>
+        <typeAlias type="br.gov.inpi.domain.SubClasseNacional" alias="SubClasseNacional"></typeAlias>
+        <typeAlias type="br.gov.inpi.domain.Protocolo" alias="Protocolo"></typeAlias>
+        <typeAlias type="br.gov.inpi.domain.Cessionario" alias="Cessionario"></typeAlias>
+        <typeAlias type="br.gov.inpi.domain.Requerente" alias="Requerente"></typeAlias>
+        <typeAlias type="br.gov.inpi.domain.ClassesVienna" alias="ClassesVienna"></typeAlias>
+        <typeAlias type="br.gov.inpi.domain.ClasseVienna" alias="ClasseVienna"></typeAlias>
+        <typeAlias type="br.gov.inpi.domain.Busca" alias="Busca"></typeAlias>
+        <typeAlias type="br.gov.inpi.domain.Usuario" alias="Usuario"></typeAlias>
+        <typeAlias type="br.gov.inpi.domain.ProcessoPublicacao" alias="ProcessoPublicacao"></typeAlias>
+        <typeAlias type="br.gov.inpi.domain.ProcessoProtocolo" alias="ProcessoProtocolo"></typeAlias>
+    </typeAliases>
+
+    <environments default='development'>
+        <environment id='development'>
+            <transactionManager type='JDBC'/>
+            <dataSource type='POOLED'>
+                <property name='driver' value='${jdbc.driverClassName}'/>
+                <property name='url' value='${jdbc.url}'/>
+                <property name='username' value='${jdbc.username}'/>
+                <property name='password' value='${jdbc.password}'/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <mappers>
+        <mapper resource="DespachoMapper.xml"/>
+        <mapper resource='RevistaMapper.xml'/>
+        <mapper resource='ProcessoMapper.xml'/>
+        <mapper resource='TitularMapper.xml'/>
+        <mapper resource="DespachoProcessoMapper.xml"/>
+        <mapper resource="ProcessoClasseNiceMapper.xml"/>
+        <mapper resource="ClasseNiceMapper.xml"/>
+        <mapper resource="SobrestadorMapper.xml"/>
+        <mapper resource="MarcaMapper.xml"/>
+        <mapper resource="PrioridadeMapper.xml"/>
+        <mapper resource="ClasseNacionalMapper.xml"/>
+        <mapper resource="SubClasseNacionalMapper.xml"/>
+        <mapper resource="ProtocoloMapper.xml"/>
+        <mapper resource="CessionarioMapper.xml"/>
+        <mapper resource="RequerenteMapper.xml"/>
+        <mapper resource="ClassesViennaMapper.xml"/>
+        <mapper resource="ClasseViennaMapper.xml"/>
+        <mapper resource="UsuarioMapper.xml"/>
+        <mapper resource="BuscaMapper.xml"/>
+    </mappers>
+
+</configuration>

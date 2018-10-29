@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+        'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+
+<mapper namespace="br.gov.inpi.mapper.RevistaMapper">
+
+
+    <resultMap type="Revista" id="RevistaResult">
+        <id property="id" column="ID"/>
+        <result property="numero" column="NUM_REVISTA"/>
+        <result property="dataFormatada" column="DT_PUBLICACAO"/>
+    </resultMap>
+
+    <insert id="inserir" parameterType="Revista" useGeneratedKeys="true" keyProperty="ID">
+        INSERT INTO REVISTA(NUM_REVISTA, DT_PUBLICACAO)
+        VALUES(#{numero}, #{dataFormatada})
+    </insert>
+
+
+    <select id="getRevista" parameterType="long" resultType="Revista">
+        SELECT ID, NUM_REVISTA, DT_PUBLICACAO FROM REVISTA
+        WHERE NUM_REVISTA = #{param}
+    </select>
+
+    <update id="atualizar" parameterType="Revista">
+        UPDATE REVISTA
+        SET NUM_REVISTA = #{numero},
+        DT_PUBLICACAO = #{dataFormatada}
+        WHERE ID = #{id}
+    </update>
+
+</mapper>

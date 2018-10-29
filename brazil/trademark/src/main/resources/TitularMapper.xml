@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+        'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+
+<mapper namespace="br.gov.inpi.mapper.TitularMapper">
+
+
+    <resultMap type="Titular" id="TitularResult">
+        <id property="id" column="ID"/>
+    </resultMap>
+
+    <insert id="inserir" parameterType="Titular" useGeneratedKeys="true" keyProperty="ID">
+        INSERT INTO TITULAR(PROCESSO_ID, RAZAO_SOCIAL, PAIS, UF)
+        VALUES(#{processo.id}, #{razaoSocial}, #{pais}, #{uf})
+    </insert>
+
+
+    <select id="getTitular" parameterType="Titular" resultType="Titular">
+        SELECT ID, PROCESSO_ID, RAZAO_SOCIAL, PAIS, UF FROM TITULAR
+        WHERE PROCESSO_ID = #{processo.id}
+        AND RAZAO_SOCIAL = #{razaoSocial}
+    </select>
+
+    <update id="atualizar" parameterType="Titular">
+        UPDATE TITULAR
+        SET PROCESSO_ID = #{processo.id},
+        RAZAO_SOCIAL = #{razaoSocial},
+        PAIS = #{pais},
+        UF = #{uf}
+        WHERE ID = #{id}
+    </update>
+
+</mapper>

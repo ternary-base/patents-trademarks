@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+        'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+
+<mapper namespace="br.gov.inpi.mapper.ClasseNiceMapper">
+
+
+    <resultMap type="ClasseNice" id="ClasseNiceResult">
+        <id property="id" column="ID"/>
+    </resultMap>
+
+    <insert id="inserir" parameterType="ClasseNice" useGeneratedKeys="true" keyProperty="ID">
+        INSERT INTO CLASSE_NICE(CODIGO, ESPECIFICACAO)
+        VALUES(#{codigo}, #{especificacao})
+    </insert>
+
+
+    <select id="getClasseNice" parameterType="ClasseNice" resultType="ClasseNice">
+        SELECT ID, CODIGO, ESPECIFICACAO FROM CLASSE_NICE
+        WHERE CODIGO = #{codigo}
+    </select>
+
+    <update id="atualizar" parameterType="ClasseNice">
+        UPDATE CLASSE_NICE
+        SET CODIGO = #{codigo},
+        ESPECIFICACAO = #{especificacao}
+        WHERE ID = #{id}
+    </update>
+
+</mapper>

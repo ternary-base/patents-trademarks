@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+        'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+
+<mapper namespace="br.gov.inpi.mapper.DespachoProcessoMapper">
+
+
+    <resultMap type='DespachoProcesso' id='DespachoProcessoResult'>
+        <id property='id' column='ID'/>
+    </resultMap>
+
+    <insert id='inserir' parameterType='DespachoProcesso' useGeneratedKeys='true' keyProperty='ID'>
+        INSERT INTO DESPACHO_PROCESSO(DESPACHO_ID, PROCESSO_ID, TEXTO_COMPLEMENTAR)
+        VALUES(#{despacho.id}, #{processo.id}, #{textoComplementar})
+    </insert>
+
+
+    <select id='getDespachoProcesso' parameterType='DespachoProcesso' resultType='DespachoProcesso'>
+        SELECT ID, DESPACHO_ID, PROCESSO_ID, TEXTO_COMPLEMENTAR from DESPACHO_PROCESSO
+        WHERE DESPACHO_ID = #{despacho.id}
+        AND PROCESSO_ID = #{processo.id}
+    </select>
+
+    <update id="atualizar" parameterType="DespachoProcesso">
+        UPDATE DESPACHO_PROCESSO
+        SET TEXTO_COMPLEMENTAR = #{textoComplementar}
+        WHERE ID = #{id}
+    </update>
+
+
+</mapper>

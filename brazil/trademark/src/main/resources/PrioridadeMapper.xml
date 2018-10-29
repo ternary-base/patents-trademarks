@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+        'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+
+<mapper namespace="br.gov.inpi.mapper.PrioridadeMapper">
+
+
+    <resultMap type="Prioridade" id="PrioridadeResult">
+        <id property="id" column="ID"/>
+    </resultMap>
+
+    <insert id="inserir" parameterType="Prioridade" useGeneratedKeys="true" keyProperty="ID">
+        INSERT INTO PRIORIDADE(PROCESSO_ID, DT_PRIORIDADE, NUMERO, PAIS)
+        VALUES(#{processo.id}, #{dataFormatada}, #{numero}, #{pais} )
+    </insert>
+
+    <select id="getPrioridade" parameterType="Prioridade" resultType="Prioridade">
+        SELECT ID, PROCESSO_ID, DT_PRIORIDADE, NUMERO, PAIS FROM PRIORIDADE
+        WHERE PROCESSO_ID = #{processo.id}
+        AND NUMERO = #{numero}
+    </select>
+
+    <update id="atualizar" parameterType="Prioridade">
+        UPDATE PRIORIDADE
+        SET DT_PRIORIDADE = #{dataFormatada},
+        NUMERO = #{numero},
+        PAIS = #{pais},
+        PROCESSO_ID = #{processo.id}
+        WHERE ID = #{id}
+    </update>
+
+</mapper>

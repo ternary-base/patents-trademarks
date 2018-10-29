@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+        'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+
+<mapper namespace="br.gov.inpi.mapper.ClassesViennaMapper">
+
+
+    <resultMap type="ClassesVienna" id="ClassesViennaResult">
+        <id property="id" column="ID"/>
+    </resultMap>
+
+    <insert id="inserir" parameterType="ClassesVienna" useGeneratedKeys="true" keyProperty="ID">
+        INSERT INTO CLASSES_VIENNA(PROCESSO_ID, EDICAO)
+        VALUES(#{processo.id}, #{edicao})
+    </insert>
+
+
+    <select id="getClassesVienna" parameterType="ClassesVienna" resultType="ClassesVienna">
+        SELECT ID, PROCESSO_ID, EDICAO FROM CLASSES_VIENNA
+        WHERE PROCESSO_ID = #{processo.id}
+        AND EDICAO = #{edicao}
+    </select>
+
+    <update id="atualizar" parameterType="ClassesVienna">
+        UPDATE CLASSES_VIENNA
+        SET PROCESSO_ID = #{processo.id},
+        EDICAO = #{edicao}
+        WHERE ID = #{id}
+    </update>
+
+</mapper>

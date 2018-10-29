@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+        'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+
+<mapper namespace="br.gov.inpi.mapper.BuscaMapper">
+
+
+        <resultMap type="Busca" id="BuscaResult">
+                <id property="id" column="ID"/>
+                <id property="termo" column="TERMO_BUSCADO"/>
+                <id property="dataBusca" column="DATA"/>
+                <id property="usuario.id" column="USUARIO_id"/>
+        </resultMap>
+
+
+        <insert id="inserir" parameterType="Busca" useGeneratedKeys="true" keyProperty="ID">
+                INSERT INTO SITE_BUSCA(TERMO_BUSCADO, DATA, USUARIO_ID)
+                VALUES(#{termo}, #{dataBusca}, #{usuario.id})
+        </insert>
+
+        <select id='countBuscas' resultType="Long">
+                SELECT count(ID) from SITE_BUSCA
+        </select>
+
+
+</mapper>

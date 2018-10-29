@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+        'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+
+<mapper namespace="br.gov.inpi.mapper.RequerenteMapper">
+
+
+    <resultMap type="Requerente" id="RequerenteResult">
+        <id property="id" column="ID"/>
+    </resultMap>
+
+    <insert id="inserir" parameterType="Requerente" useGeneratedKeys="true" keyProperty="ID">
+        INSERT INTO REQUERENTE(PROTOCOLO_ID,RAZAO_SOCIAL, PAIS, UF)
+        VALUES(#{protocolo.id}, #{razaoSocial}, #{pais}, #{uf} )
+    </insert>
+
+    <select id="getRequerente" parameterType="Requerente" resultType="Requerente">
+        SELECT ID, PROTOCOLO_ID,RAZAO_SOCIAL, PAIS, UF FROM REQUERENTE
+        WHERE PROTOCOLO_ID = #{protocolo.id}
+        AND RAZAO_SOCIAL = #{razaoSocial}
+    </select>
+
+    <update id="atualizar" parameterType="Requerente">
+        UPDATE REQUERENTE
+        SET PROTOCOLO_ID = #{protocolo.id},
+        RAZAO_SOCIAL = #{razaoSocial},
+        PAIS = #{pais},
+        UF = #{uf}
+        WHERE ID = #{id}
+    </update>
+
+</mapper>

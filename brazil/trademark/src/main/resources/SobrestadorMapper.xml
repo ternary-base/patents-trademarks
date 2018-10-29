@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+        'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+
+<mapper namespace="br.gov.inpi.mapper.SobrestadorMapper">
+
+
+    <resultMap type="Sobrestador" id="SobrestadorResult">
+        <id property="id" column="ID"/>
+    </resultMap>
+
+    <insert id="inserir" parameterType="Sobrestador" useGeneratedKeys="true" keyProperty="ID">
+        INSERT INTO SOBRESTADOR(PROCESSO_ID, PROCESSO, MARCA)
+        VALUES(#{processoRelacionado.id}, #{processo}, #{marca})
+    </insert>
+
+
+    <select id="getSobrestador" parameterType="Sobrestador" resultType="Sobrestador">
+        SELECT ID, PROCESSO_ID, PROCESSO, MARCA FROM SOBRESTADOR
+        WHERE PROCESSO_ID = #{processoRelacionado.id}
+        AND PROCESSO = #{processo}
+    </select>
+
+    <update id="atualizar" parameterType="Sobrestador">
+        UPDATE SOBRESTADOR
+        SET PROCESSO_ID = #{processoRelacionado.id},
+        PROCESSO = #{processo},
+        MARCA = #{marca}
+        WHERE ID = #{id}
+    </update>
+
+</mapper>

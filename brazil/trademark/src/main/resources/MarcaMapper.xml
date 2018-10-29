@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+        'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+
+<mapper namespace="br.gov.inpi.mapper.MarcaMapper">
+
+
+    <resultMap type="Marca" id="MarcaResult">
+        <id property="id" column="ID"/>
+    </resultMap>
+
+    <insert id="inserir" parameterType="Marca" useGeneratedKeys="true" keyProperty="ID">
+        INSERT INTO MARCA(PROCESSO_ID, APRESENTACAO, NATUREZA, NOME)
+        VALUES(#{processo.id}, #{apresentacao}, #{natureza}, #{nome} )
+    </insert>
+
+    <select id="getMarca" parameterType="Marca" resultType="Marca">
+        SELECT ID, PROCESSO_ID, APRESENTACAO, NATUREZA, NOME FROM MARCA
+        WHERE PROCESSO_ID = #{processo.id}
+        AND APRESENTACAO = #{apresentacao}
+        AND NATUREZA = #{natureza}
+    </select>
+
+    <update id="atualizar" parameterType="Marca">
+        UPDATE MARCA
+        SET PROCESSO_ID = #{processo.id},
+        APRESENTACAO = #{apresentacao},
+        NATUREZA = #{natureza},
+        NOME = #{nome}
+        WHERE ID = #{id}
+    </update>
+
+</mapper>
